@@ -3,8 +3,8 @@ package instances
 import (
 	"github.com/gophercloud/gophercloud"
 	"github.com/gophercloud/gophercloud/pagination"
-    "strings"
     "time"
+    "strings"
 )
 
 type OTCInstanceList struct {
@@ -57,6 +57,47 @@ type Instance struct {
 	}
 
 	// OTC: Indicates the database port number.
+	DBPort int
+
+	BackupStrategy struct {
+		StartTime backupStrategyTime
+		KeepDays  int
+	}
+
+	// OTC: Returned only when you create primary/standby DB instances.
+	SlaveID string
+
+	// OTC: Indicates the primary/standby DB instance information. Returned only when you obtain a primary/standby DB
+	HA struct {
+		ReplicationMode string
+	}
+
+	// OTC: Returned only when you obtain the read replica information.
+	ReplicaOf string
+
+	// Information about the attached volume of the instance.
+	Volume struct {
+		Type string
+		Size int
+	}
+
+	// Indicates how the instance stores data.
+	Datastore struct {
+		Type    string
+		Version string
+	}
+}
+
+type backupStrategyTime struct {
+	time.Time
+}
+
+func (ct *backupStrategyTime) UnmarshalJSON(b []byte) (err error) {
+	s := strings.Trim(string(b), "\"")
+	timeLayout := "15:04:05"
+	ct.Time, err = time.Parse(timeLayout, s)
+	return
+}
 
 // InstancePage represents a single page of a paginated instance collection.
 type InstancePage struct {
