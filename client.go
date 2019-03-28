@@ -5,7 +5,12 @@ import (
 )
 
 func NewDBV1(client *gophercloud.ProviderClient, eo gophercloud.EndpointOpts) (*gophercloud.ServiceClient, error) {
-	return initClientOpts(client, eo, "rdsv1")
+    sc := initClientOpts(client, eo, "rdsv1")
+    sc.MoreHeaders = map[string]string{
+        "X-Language":   "en-us",
+        "Content-Type": "application/json",
+    }
+    return sc
 }
 
 func initClientOpts(client *gophercloud.ProviderClient, eo gophercloud.EndpointOpts, clientType string) (*gophercloud.ServiceClient, error) {
