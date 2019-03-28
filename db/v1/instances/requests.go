@@ -59,7 +59,7 @@ type Instance struct {
 	DBPort int
 
 	BackupStrategy struct {
-		StartTime OTCTime
+		StartTime backupStrategyTime
 		KeepDays  int
 	}
 
