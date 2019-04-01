@@ -5,14 +5,13 @@ import (
 	"testing"
 	"time"
 
-	"github.com/gophercloud/gophercloud"
-	"github.com/lbischof/gotc/db/v1/instances"
 	"github.com/gophercloud/gophercloud/testhelper/fixture"
+	"github.com/lbischof/gotc/db/v1/instances"
 )
 
 var (
-	timestamp  = "2015-11-12T14:22:42"
-	timeVal, _ = time.Parse(gophercloud.RFC3339NoZ, timestamp)
+	timestamp  = "2015-11-12T14:22:42+0000"
+	timeVal, _ = time.Parse("2006-01-02T15:04:05+0000", timestamp)
 )
 
 var instance = `
@@ -161,9 +160,9 @@ var expectedInstance = instances.Instance{
 	},
 	Hostname: "e09ad9a3f73309469cf1f43d11e79549caf9acf2.openstack.example.com",
 	ID:       instanceID,
-	Name:   "json_rack_instance",
-	Status: "BUILD",
-	Volume: instances.Volume{Size: 2},
+	Name:     "json_rack_instance",
+	Status:   "BUILD",
+	Volume:   instances.Volume{Size: 2},
 	Datastore: instances.DatastorePartial{
 		Type:    "mysql",
 		Version: "5.6",
@@ -178,9 +177,9 @@ var expectedInstanceWithFault = instances.Instance{
 	},
 	Hostname: "e09ad9a3f73309469cf1f43d11e79549caf9acf2.openstack.example.com",
 	ID:       instanceID,
-	Name:   "json_rack_instance",
-	Status: "BUILD",
-	Volume: instances.Volume{Size: 2},
+	Name:     "json_rack_instance",
+	Status:   "BUILD",
+	Volume:   instances.Volume{Size: 2},
 	Datastore: instances.DatastorePartial{
 		Type:    "mysql",
 		Version: "5.6",

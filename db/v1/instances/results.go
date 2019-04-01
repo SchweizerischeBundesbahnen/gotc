@@ -1,33 +1,31 @@
 package instances
 
 import (
+	"encoding/json"
 	"github.com/gophercloud/gophercloud"
+	"github.com/gophercloud/gophercloud/openstack/db/v1/users"
 	"github.com/gophercloud/gophercloud/pagination"
-        "github.com/gophercloud/gophercloud/openstack/db/v1/users"
-    "time"
-    "strings"
-    "encoding/json"
+	"strings"
+	"time"
 )
 
 type Volume struct {
-		Type string
-		Size int
-	}
+	Type string
+	Size int
+}
 
 type Flavor struct {
-		ID string
-	}
-
+	ID string
+}
 
 type OTCInstanceList struct {
 	Instances []Instance
 }
 
 type DatastorePartial struct {
-		Type    string
-		Version string
-	}
-
+	Type    string
+	Version string
+}
 
 type Instance struct {
 	// Indicates the datetime that the instance was created
@@ -37,7 +35,7 @@ type Instance struct {
 	Updated time.Time `json:"-"`
 
 	// Indicates the hardware flavor the instance uses.
-	Flavor Flavor
+	Flavor   Flavor
 	Hostname string
 
 	// Indicates the unique identifier for the instance resource.
@@ -93,28 +91,47 @@ type Instance struct {
 	// Information about the attached volume of the instance.
 	Volume Volume
 
-
 	// Indicates how the instance stores data.
 	Datastore DatastorePartial
 }
 
+const RFC3339 = "2006-01-02T15:04:05+0000"
+
+type JSONRFC3339 time.Time
+
+func (jt *JSONRFC3339) UnmarshalJSON(data []byte) error {
+	var s string
+	if err := json.Unmarshal(data, &s); err != nil {
+		return err
+	}
+	if s == "" {
+		return nil
+	}
+	t, err := time.Parse(RFC3339, s)
+	if err != nil {
+		return err
+	}
+	*jt = JSONRFC3339(t)
+	return nil
+}
+
 func (r *Instance) UnmarshalJSON(b []byte) error {
-    type tmp Instance
-    var s struct {
-        tmp
-        Created gophercloud.JSONRFC3339NoZ `json:"created"`
-        Updated gophercloud.JSONRFC3339NoZ `json:"updated"`
-    }
-    err := json.Unmarshal(b, &s)
-    if err != nil {
-        return err
-    }
-    *r = Instance(s.tmp)
+	type tmp Instance
+	var s struct {
+		tmp
+		Created JSONRFC3339 `json:"created"`
+		Updated JSONRFC3339 `json:"updated"`
+	}
+	err := json.Unmarshal(b, &s)
+	if err != nil {
+		return err
+	}
+	*r = Instance(s.tmp)
 
-    r.Created = time.Time(s.Created)
-    r.Updated = time.Time(s.Updated)
+	r.Created = time.Time(s.Created)
+	r.Updated = time.Time(s.Updated)
 
-    return nil
+	return nil
 }
 
 type backupStrategyTime struct {
@@ -128,43 +145,38 @@ func (ct *backupStrategyTime) UnmarshalJSON(b []byte) (err error) {
 	return
 }
 
-
-
 type commonResult struct {
-    gophercloud.Result
+	gophercloud.Result
 }
 
 // CreateResult represents the result of a Create operation.
 type CreateResult struct {
-    commonResult
+	commonResult
 }
 
 // GetResult represents the result of a Get operation.
 type GetResult struct {
-    commonResult
+	commonResult
 }
 
 // DeleteResult represents the result of a Delete operation.
 type DeleteResult struct {
-    gophercloud.ErrResult
+	gophercloud.ErrResult
 }
 
 // ConfigurationResult represents the result of a AttachConfigurationGroup/DetachConfigurationGroup operation.
 type ConfigurationResult struct {
-    gophercloud.ErrResult
+	gophercloud.ErrResult
 }
 
 // Extract will extract an Instance from various result structs.
 func (r commonResult) Extract() (*Instance, error) {
-    var s struct {
-        Instance *Instance `json:"instance"`
-    }
-    err := r.ExtractInto(&s)
-    return s.Instance, err
+	var s struct {
+		Instance *Instance `json:"instance"`
+	}
+	err := r.ExtractInto(&s)
+	return s.Instance, err
 }
-
-
-
 
 // InstancePage represents a single page of a paginated instance collection.
 type InstancePage struct {
@@ -201,32 +213,32 @@ func ExtractInstances(r pagination.Page) ([]Instance, error) {
 
 // EnableRootUserResult represents the result of an operation to enable the root user.
 type EnableRootUserResult struct {
-    gophercloud.Result
+	gophercloud.Result
 }
 
 // Extract will extract root user information from a UserRootResult.
 func (r EnableRootUserResult) Extract() (*users.User, error) {
-    var s struct {
-        User *users.User `json:"user"`
-    }
-    err := r.ExtractInto(&s)
-    return s.User, err
+	var s struct {
+		User *users.User `json:"user"`
+	}
+	err := r.ExtractInto(&s)
+	return s.User, err
 }
 
 // ActionResult represents the result of action requests, such as: restarting
 // an instance service, resizing its memory allocation, and resizing its
 // attached volume size.
 type ActionResult struct {
-    gophercloud.ErrResult
+	gophercloud.ErrResult
 }
 
 // IsRootEnabledResult is the result of a call to IsRootEnabled. To see if
 // root is enabled, call the type's Extract method.
 type IsRootEnabledResult struct {
-    gophercloud.Result
+	gophercloud.Result
 }
 
 // Extract is used to extract the data from a IsRootEnabledResult.
 func (r IsRootEnabledResult) Extract() (bool, error) {
-    return r.Body.(map[string]interface{})["rootEnabled"] == true, r.Err
+	return r.Body.(map[string]interface{})["rootEnabled"] == true, r.Err
 }
