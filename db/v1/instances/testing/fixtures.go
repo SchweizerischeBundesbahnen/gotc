@@ -17,7 +17,7 @@ var (
 var instance = `
 {
   "created": "` + timestamp + `",
-  "datastore": {
+  "dataStoreInfo": {
     "type": "mysql",
     "version": "5.6"
   },
@@ -87,7 +87,7 @@ var createReq = `
 var instanceWithFault = `
 {
   "created": "` + timestamp + `",
-  "datastore": {
+  "dataStoreInfo": {
     "type": "mysql",
     "version": "5.6"
   },
@@ -163,7 +163,7 @@ var expectedInstance = instances.Instance{
 	Name:     "json_rack_instance",
 	Status:   "BUILD",
 	Volume:   instances.Volume{Size: 2},
-	Datastore: instances.DatastorePartial{
+	DataStoreInfo: instances.DatastorePartial{
 		Type:    "mysql",
 		Version: "5.6",
 	},
@@ -180,7 +180,7 @@ var expectedInstanceWithFault = instances.Instance{
 	Name:     "json_rack_instance",
 	Status:   "BUILD",
 	Volume:   instances.Volume{Size: 2},
-	Datastore: instances.DatastorePartial{
+	DataStoreInfo: instances.DatastorePartial{
 		Type:    "mysql",
 		Version: "5.6",
 	},

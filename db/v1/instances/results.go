@@ -92,7 +92,7 @@ type Instance struct {
 	Volume Volume
 
 	// Indicates how the instance stores data.
-	Datastore DatastorePartial
+	DataStoreInfo DatastorePartial
 }
 
 const RFC3339 = "2006-01-02T15:04:05+0000"
