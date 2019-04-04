@@ -17,18 +17,19 @@ func AuthenticatedClient(opts gophercloud.AuthOptions, tenant, agency string) (*
 		return nil, err
 	}
 	agencyOpts := newAgencyOptions(tenant, agency)
-	token, err := create(identity, agencyOpts).ExtractToken()
+	token, err := create(identity, agencyOpts).ExtractTokenID()
 	if err != nil {
 		log.Println(err)
 	}
 
 	log.Printf("%+v", token)
-	return getTokenProvider(opts, token.ID)
+	return getTokenProvider(opts, token)
 }
 
 func getTokenProvider(opts gophercloud.AuthOptions, token string) (*gophercloud.ProviderClient, error) {
 	opts.TokenID = token
 	opts.Username = ""
+    opts.Password = ""
 	opts.UserID = ""
 	opts.DomainID = ""
 	opts.DomainName = ""
