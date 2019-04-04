@@ -22,7 +22,6 @@ func AuthenticatedClient(opts gophercloud.AuthOptions, tenant, agency string) (*
 		log.Println(err)
 	}
 
-	log.Printf("%+v", token)
 	return getTokenProvider(opts, token)
 }
 
