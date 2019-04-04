@@ -27,9 +27,12 @@ func AuthenticatedClient(opts gophercloud.AuthOptions, tenant, agency string) (*
 }
 
 func getTokenProvider(opts gophercloud.AuthOptions, token string) (*gophercloud.ProviderClient, error) {
+	opts.Scope = new(gophercloud.AuthScope)
+	opts.Scope.ProjectName = opts.TenantName
+	opts.Scope.DomainName = opts.DomainName
 	opts.TokenID = token
 	opts.Username = ""
-    opts.Password = ""
+	opts.Password = ""
 	opts.UserID = ""
 	opts.DomainID = ""
 	opts.DomainName = ""
