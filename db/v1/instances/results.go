@@ -211,6 +211,17 @@ func ExtractInstances(r pagination.Page) ([]Instance, error) {
 	return s.Instances, err
 }
 
+type GetTagsResult struct {
+	gophercloud.Result
+}
+
+// Extract will extract root user information from a UserRootResult.
+func (r GetTagsResult) Extract() (map[string]string, error) {
+	tags := make(map[string]string)
+	err := r.ExtractInto(&tags)
+	return tags, err
+}
+
 // EnableRootUserResult represents the result of an operation to enable the root user.
 type EnableRootUserResult struct {
 	gophercloud.Result

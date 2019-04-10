@@ -93,6 +93,18 @@ func TestInstanceList(t *testing.T) {
 	th.AssertEquals(t, 1, pages)
 }
 
+func TestGetTags(t *testing.T) {
+	th.SetupHTTP()
+	defer th.TeardownHTTP()
+	HandleGet(t)
+
+	instance, err := instances.GetTags(fake.ServiceClient(), instanceID).Extract()
+
+	th.AssertNoErr(t, err)
+
+	th.AssertDeepEquals(t, &expectedInstance, instance)
+}
+
 func TestGetInstance(t *testing.T) {
 	th.SetupHTTP()
 	defer th.TeardownHTTP()

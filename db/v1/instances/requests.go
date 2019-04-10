@@ -157,6 +157,11 @@ func Get(client *gophercloud.ServiceClient, id string) (r GetResult) {
 	return
 }
 
+func GetTags(client *gophercloud.ServiceClient, id string) (r GetTagsResult) {
+	_, r.Err = client.Get(tagURL(client, id), &r.Body, nil)
+	return
+}
+
 // Delete permanently destroys the database instance.
 func Delete(client *gophercloud.ServiceClient, id string) (r DeleteResult) {
 	_, r.Err = client.Delete(resourceURL(client, id), nil)
