@@ -5,7 +5,7 @@ import (
 
 	th "github.com/gophercloud/gophercloud/testhelper"
 	fake "github.com/gophercloud/gophercloud/testhelper/client"
-	"github.com/lbischof/gotc/db/v1/flavors"
+	"github.com/SchweizerischeBundesbahnen/gotc/db/v1/flavors"
 )
 
 func TestGetFlavor(t *testing.T) {

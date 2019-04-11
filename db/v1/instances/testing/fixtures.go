@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/gophercloud/gophercloud/testhelper/fixture"
-	"github.com/lbischof/gotc/db/v1/instances"
+	"github.com/SchweizerischeBundesbahnen/gotc/db/v1/instances"
 )
 
 var (

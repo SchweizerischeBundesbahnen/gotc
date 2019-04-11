@@ -8,7 +8,7 @@ import (
 	"github.com/gophercloud/gophercloud/pagination"
 	th "github.com/gophercloud/gophercloud/testhelper"
 	fake "github.com/gophercloud/gophercloud/testhelper/client"
-	"github.com/lbischof/gotc/db/v1/instances"
+	"github.com/SchweizerischeBundesbahnen/gotc/db/v1/instances"
 )
 
 func TestCreate(t *testing.T) {
