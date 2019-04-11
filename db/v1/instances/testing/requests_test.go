@@ -102,7 +102,7 @@ func TestGetTags(t *testing.T) {
 
 	th.AssertNoErr(t, err)
 
-	th.AssertDeepEquals(t, []instances.Tag{expectedTag}, actual)
+	th.AssertDeepEquals(t, expectedTags, actual)
 }
 
 func TestGetInstance(t *testing.T) {

@@ -154,9 +154,8 @@ var (
 	isUserEnabledResp   = `{"rootEnabled":true}`
 )
 
-var expectedTag = instances.Tag{
-	Key:   "k",
-	Value: "v",
+var expectedTags = map[string]string{
+	"k": "v",
 }
 
 var expectedInstance = instances.Instance{

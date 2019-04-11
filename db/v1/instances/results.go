@@ -221,12 +221,19 @@ type Tag struct {
 }
 
 // Extract will extract root user information from a UserRootResult.
-func (r GetTagsResult) Extract() ([]Tag, error) {
+func (r GetTagsResult) Extract() (map[string]string, error) {
 	var s struct {
 		Tags []Tag
 	}
 	err := r.ExtractInto(&s)
-	return s.Tags, err
+	if err != nil {
+		return nil, err
+	}
+	m := make(map[string]string)
+	for _, tag := range s.Tags {
+		m[tag.Key] = tag.Value
+	}
+	return m, err
 }
 
 // EnableRootUserResult represents the result of an operation to enable the root user.
