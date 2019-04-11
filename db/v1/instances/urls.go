@@ -23,12 +23,12 @@ func actionURL(c *gophercloud.ServiceClient, id string) string {
 }
 
 func tagURL(c *gophercloud.ServiceClient, id string) string {
-	resourceBase := c.ResourceBaseURL()
-	log.Println(resourceBase)
+	endpoint := c.Endpoint
+	log.Println(endpoint)
 	// map: https://rds.eu-ch.o13bb.otc.t-systems.com/rds/v1/$(tenant_id)s
 	// to: https://rds.eu-ch.o13bb.otc.t-systems.com/v1/$(tenant_id)s/rds
-	c.ResourceBase = strings.Replace(resourceBase, "rds/", "", 1) + "rds/"
-	log.Println(c.ResourceBase)
+	c.Endpoint = strings.Replace(endpoint, "rds/", "", 1)
+	log.Println(c.Endpoint)
 
-	return c.ServiceURL(id, "tags")
+	return c.ServiceURL("rds", id, "tags")
 }

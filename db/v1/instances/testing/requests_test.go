@@ -96,13 +96,13 @@ func TestInstanceList(t *testing.T) {
 func TestGetTags(t *testing.T) {
 	th.SetupHTTP()
 	defer th.TeardownHTTP()
-	HandleGet(t)
+	HandleGetTags(t)
 
-	instance, err := instances.GetTags(fake.ServiceClient(), instanceID).Extract()
+	actual, err := instances.GetTags(fake.ServiceClient(), instanceID).Extract()
 
 	th.AssertNoErr(t, err)
 
-	th.AssertDeepEquals(t, &expectedInstance, instance)
+	th.AssertDeepEquals(t, []instances.Tag{expectedTag}, actual)
 }
 
 func TestGetInstance(t *testing.T) {

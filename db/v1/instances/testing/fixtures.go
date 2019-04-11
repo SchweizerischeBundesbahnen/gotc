@@ -129,6 +129,7 @@ var instanceWithFault = `
 var (
 	instanceID    = "{instanceID}"
 	configGroupID = "00000000-0000-0000-0000-000000000000"
+	tagURL        = "/rds/" + instanceID + "/tags"
 	rootURL       = "/instances"
 	resURL        = rootURL + "/" + instanceID
 	uRootURL      = resURL + "/root"
@@ -148,9 +149,15 @@ var (
 	createWithFaultResp = fmt.Sprintf(`{"instance": %s}`, instanceWithFault)
 	listInstancesResp   = fmt.Sprintf(`{"instances":[%s]}`, instance)
 	getInstanceResp     = createResp
+	getInstanceTagResp  = `{"tags":[{"key":"k", "value":"v"}]}`
 	enableUserResp      = `{"user":{"name":"root","password":"secretsecret"}}`
 	isUserEnabledResp   = `{"rootEnabled":true}`
 )
+
+var expectedTag = instances.Tag{
+	Key:   "k",
+	Value: "v",
+}
 
 var expectedInstance = instances.Instance{
 	Created: timeVal,
@@ -200,6 +207,10 @@ func HandleList(t *testing.T) {
 
 func HandleGet(t *testing.T) {
 	fixture.SetupHandler(t, resURL, "GET", "", getInstanceResp, 200)
+}
+
+func HandleGetTags(t *testing.T) {
+	fixture.SetupHandler(t, tagURL, "GET", "", getInstanceTagResp, 200)
 }
 
 func HandleDelete(t *testing.T) {

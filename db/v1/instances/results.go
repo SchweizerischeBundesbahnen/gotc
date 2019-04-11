@@ -215,11 +215,18 @@ type GetTagsResult struct {
 	gophercloud.Result
 }
 
+type Tag struct {
+	Key   string
+	Value string
+}
+
 // Extract will extract root user information from a UserRootResult.
-func (r GetTagsResult) Extract() (map[string]string, error) {
-	tags := make(map[string]string)
-	err := r.ExtractInto(&tags)
-	return tags, err
+func (r GetTagsResult) Extract() ([]Tag, error) {
+	var s struct {
+		Tags []Tag
+	}
+	err := r.ExtractInto(&s)
+	return s.Tags, err
 }
 
 // EnableRootUserResult represents the result of an operation to enable the root user.
