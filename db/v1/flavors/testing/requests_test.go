@@ -17,7 +17,7 @@ func TestGetFlavor(t *testing.T) {
 	th.AssertNoErr(t, err)
 
 	expected := &flavors.Flavor{
-		ID:       1,
+		ID:       "1",
 		Name:     "m1.tiny",
 		RAM:      512,
 		SpecCode: "rds.mysql.m1.xlarge",

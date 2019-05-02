@@ -9,7 +9,7 @@ import (
 
 const flavor = `
 {
-	"id": %s,
+	"id": "%s",
 	"name": "%s",
 	"ram": %d,
 	"specCode": "%s"
