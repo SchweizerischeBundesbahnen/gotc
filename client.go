@@ -16,6 +16,18 @@ func NewDBV1(client *gophercloud.ProviderClient, eo gophercloud.EndpointOpts) (*
 	return sc, nil
 }
 
+func NewCloudeyeV1(client *gophercloud.ProviderClient, eo gophercloud.EndpointOpts) (*gophercloud.ServiceClient, error) {
+	sc, err := initClientOpts(client, eo, "cesv1")
+	if err != nil {
+		return nil, err
+	}
+	sc.MoreHeaders = map[string]string{
+		"X-Language":   "en-us",
+		"Content-Type": "application/json",
+	}
+	return sc, nil
+}
+
 func initClientOpts(client *gophercloud.ProviderClient, eo gophercloud.EndpointOpts, clientType string) (*gophercloud.ServiceClient, error) {
 	sc := new(gophercloud.ServiceClient)
 	eo.ApplyDefaults(clientType)
