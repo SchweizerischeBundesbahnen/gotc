@@ -20,13 +20,13 @@ func TestListMetrics(t *testing.T) {
 	th.AssertDeepEquals(t, expectedMetrics, actual)
 }
 
-//func TestGetMetric(t *testing.T) {
-//	th.SetupHTTP()
-//	defer th.TeardownHTTP()
-//	HandleGetMetrics(t)
-//
-//	metric, err := metrics.Get(fake.ServiceClient(), instanceID).Extract()
-//
-//	th.AssertNoErr(t, err)
-//	th.AssertDeepEquals(t, &expectedMetric, metric)
-//}
+func TestGetMetric(t *testing.T) {
+	th.SetupHTTP()
+	defer th.TeardownHTTP()
+	HandleGetMetrics(t)
+
+	metric, err := metrics.Get(fake.ServiceClient(), nil).Extract()
+
+	th.AssertNoErr(t, err)
+	th.AssertDeepEquals(t, expectedDatapoints, metric)
+}

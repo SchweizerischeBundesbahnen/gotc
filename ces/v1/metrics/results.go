@@ -25,6 +25,7 @@ type Metric struct {
 type Datapoint struct {
     Unit string
     Average int
+    Timestamp int64
 }
 
 type commonResult struct {

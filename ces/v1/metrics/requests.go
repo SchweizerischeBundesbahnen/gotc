@@ -10,10 +10,6 @@ func List(client *gophercloud.ServiceClient) (r ListResult) {
 	return
 }
 
-type GetRequest struct {
-    Namespace string
-    Name string `json:"metric_name"`
-}
 // Get retrieves the status and information for a specified database instance.
 func Get(client *gophercloud.ServiceClient, values map[string]string) (r GetResult) {
 	_, r.Err = client.Get(getURL(client, values), &r.Body, nil)
