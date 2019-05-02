@@ -39,7 +39,7 @@ var (
 
 var (
 	// TODO
-	getMetricResp   = fmt.Sprintf(`{"datapoints": [%s]}`, datapoint)
+	getMetricResp   = fmt.Sprintf(`{"datapoints": [%s], "metric_name":"cpu_util"}`, datapoint)
 	listMetricsResp = fmt.Sprintf(`{"metrics":[%s], "meta_data":{}}`, metric)
 )
 
