@@ -3,7 +3,6 @@ package metrics
 import (
 	"github.com/gophercloud/gophercloud"
 	"github.com/gophercloud/gophercloud/pagination"
-	"log"
 )
 
 const invalidMarker = "-1"
@@ -85,7 +84,6 @@ func (page MetricPage) LastMarker() (string, error) {
     if s.Metadata.Count == s.Metadata.Total {
         return invalidMarker, nil
     }
-	log.Printf("%+v", s.Metadata)
     return s.Metadata.Marker, nil
 }
 
