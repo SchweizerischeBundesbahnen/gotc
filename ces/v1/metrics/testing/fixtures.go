@@ -44,23 +44,21 @@ var (
 )
 
 var expectedDatapoints = []metrics.Datapoint{
-    metrics.Datapoint{
-       Unit: "Count",
-       Average: 0,
-       Timestamp: 1442341200000,
-    },
+	{
+		Unit:      "Count",
+		Average:   0,
+		Timestamp: 1442341200000,
+	},
 	// TODO
 }
 
 var expectedMetrics = []metrics.Metric{
-    metrics.Metric{
-        Namespace: "SYS.ECS",
-        Dimensions: []metrics.Dimension{
-
-        },
-        Name: "cpu_util",
-        Unit: "%",
-    },
+	{
+		Namespace:  "SYS.ECS",
+		Dimensions: []metrics.Dimension{},
+		Name:       "cpu_util",
+		Unit:       "%",
+	},
 }
 
 func HandleListMetrics(t *testing.T) {

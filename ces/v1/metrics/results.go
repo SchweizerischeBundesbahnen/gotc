@@ -2,6 +2,8 @@ package metrics
 
 import (
 	"github.com/gophercloud/gophercloud"
+	"github.com/gophercloud/gophercloud/pagination"
+	"log"
 )
 
 type Metadata struct {
@@ -23,9 +25,9 @@ type Metric struct {
 }
 
 type Datapoint struct {
-    Unit string
-    Average float64
-    Timestamp int64
+	Unit      string
+	Average   float64
+	Timestamp int64
 }
 
 type commonResult struct {
@@ -34,10 +36,6 @@ type commonResult struct {
 
 // GetResult represents the result of a Get operation.
 type GetResult struct {
-	commonResult
-}
-
-type ListResult struct {
 	commonResult
 }
 
@@ -50,12 +48,36 @@ func (r GetResult) Extract() ([]Datapoint, error) {
 	return s.Datapoints, err
 }
 
-// WARNING: this isn't paged. Will cut off everything after 1000 results!
-func (r ListResult) Extract() ([]Metric, error) {
+type MetricPage struct {
+	pagination.LinkedPageBase
+}
+
+// IsEmpty checks to see whether the collection is empty.
+func (page MetricPage) IsEmpty() (bool, error) {
+	metrics, err := ExtractMetrics(page)
+	return len(metrics) == 0, err
+}
+
+// NextPageURL will retrieve the next page URL.
+func (page MetricPage) NextPageURL() (string, error) {
+	var s struct {
+		Metadata *Metadata `json:"meta_data"`
+	}
+	err := page.ExtractInto(&s)
+	if err != nil {
+		return "", err
+	}
+	log.Printf("%+v", s.Metadata)
+	return "", nil
+}
+
+// ExtractMetrics will convert a generic pagination struct into a more
+// relevant slice of Metric structs.
+func ExtractMetrics(r pagination.Page) ([]Metric, error) {
 	var s struct {
 		Metrics  []Metric  `json:"metrics"`
 		Metadata *Metadata `json:"meta_data"`
 	}
-	err := r.ExtractInto(&s)
+	err := (r.(MetricPage)).ExtractInto(&s)
 	return s.Metrics, err
 }

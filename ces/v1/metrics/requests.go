@@ -2,12 +2,14 @@ package metrics
 
 import (
 	"github.com/gophercloud/gophercloud"
+	"github.com/gophercloud/gophercloud/pagination"
 )
 
 // List retrieves the status and information for all database instances.
-func List(client *gophercloud.ServiceClient) (r ListResult) {
-	_, r.Err = client.Get(listURL(client), &r.Body, nil)
-	return
+func List(client *gophercloud.ServiceClient) pagination.Pager {
+	return pagination.NewPager(client, listURL(client), func(r pagination.PageResult) pagination.Page {
+		return MetricPage{pagination.LinkedPageBase{PageResult: r}}
+	})
 }
 
 // Get retrieves the status and information for a specified database instance.

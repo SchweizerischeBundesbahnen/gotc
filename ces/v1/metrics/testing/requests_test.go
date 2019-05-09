@@ -13,11 +13,13 @@ func TestListMetrics(t *testing.T) {
 	defer th.TeardownHTTP()
 	HandleListMetrics(t)
 
-	actual, err := metrics.List(fake.ServiceClient()).Extract()
-
+	allPages, err := metrics.List(fake.ServiceClient()).AllPages()
 	th.AssertNoErr(t, err)
 
-	th.AssertDeepEquals(t, expectedMetrics, actual)
+	allMetrics, err := metrics.ExtractMetrics(allPages)
+	th.AssertNoErr(t, err)
+
+	th.AssertDeepEquals(t, expectedMetrics, allMetrics)
 }
 
 func TestGetMetric(t *testing.T) {
