@@ -23,6 +23,14 @@ var metric = `
 }
 `
 
+var metadata = `
+{
+    "count": 1,
+    "marker": "SYS.ECS.cpu_util.instance_id:d9112af5-6913-4f3b-bd0a-3f96711e004d",
+    "total": 7
+}
+`
+
 var datapoint = `
 {
     "average": 0,
@@ -33,14 +41,12 @@ var datapoint = `
 
 var (
 	listURL = "/metrics"
-	// TODO
 	getURL = "/metric-data"
 )
 
 var (
-	// TODO
 	getMetricResp   = fmt.Sprintf(`{"datapoints": [%s], "metric_name":"cpu_util"}`, datapoint)
-	listMetricsResp = fmt.Sprintf(`{"metrics":[%s], "meta_data":{}}`, metric)
+	listMetricsResp = fmt.Sprintf(`{"metrics":[%s], "meta_data":%s}`, metric, metadata)
 )
 
 var expectedDatapoints = []metrics.Datapoint{
@@ -49,7 +55,6 @@ var expectedDatapoints = []metrics.Datapoint{
 		Average:   0,
 		Timestamp: 1442341200000,
 	},
-	// TODO
 }
 
 var expectedMetrics = []metrics.Metric{

@@ -6,6 +6,8 @@ import (
 	"log"
 )
 
+const invalidMarker = "-1"
+
 type Metadata struct {
 	Count  int
 	Marker string
@@ -49,26 +51,45 @@ func (r GetResult) Extract() ([]Datapoint, error) {
 }
 
 type MetricPage struct {
-	pagination.LinkedPageBase
+	pagination.MarkerPageBase
 }
 
 // IsEmpty checks to see whether the collection is empty.
-func (page MetricPage) IsEmpty() (bool, error) {
-	metrics, err := ExtractMetrics(page)
-	return len(metrics) == 0, err
-}
+//func (page MetricPage) IsEmpty() (bool, error) {
+//	metrics, err := ExtractMetrics(page)
+//	return len(metrics) == 0, err
+//}
 
 // NextPageURL will retrieve the next page URL.
 func (page MetricPage) NextPageURL() (string, error) {
+    currentURL := page.URL
+
+    mark, err := page.Owner.LastMarker()
+    if err != nil {
+        return "", err
+    }
+
+    q := currentURL.Query()
+    q.Set("start", mark)
+    currentURL.RawQuery = q.Encode()
+
+    return currentURL.String(), nil
+}
+
+func (page MetricPage) LastMarker() (string, error) {
 	var s struct {
 		Metadata *Metadata `json:"meta_data"`
 	}
 	err := page.ExtractInto(&s)
 	if err != nil {
-		return "", err
+		return invalidMarker, err
 	}
+
+    if s.Metadata.Count == s.Metadata.Total {
+        return invalidMarker, nil
+    }
 	log.Printf("%+v", s.Metadata)
-	return "", nil
+    return s.Metadata.Marker, nil
 }
 
 // ExtractMetrics will convert a generic pagination struct into a more
