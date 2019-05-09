@@ -54,12 +54,6 @@ type MetricPage struct {
 	pagination.MarkerPageBase
 }
 
-// IsEmpty checks to see whether the collection is empty.
-//func (page MetricPage) IsEmpty() (bool, error) {
-//	metrics, err := ExtractMetrics(page)
-//	return len(metrics) == 0, err
-//}
-
 // NextPageURL will retrieve the next page URL.
 func (page MetricPage) NextPageURL() (string, error) {
     currentURL := page.URL
@@ -67,6 +61,9 @@ func (page MetricPage) NextPageURL() (string, error) {
     mark, err := page.Owner.LastMarker()
     if err != nil {
         return "", err
+    }
+    if mark == invalidMarker {
+        return "", nil
     }
 
     q := currentURL.Query()
@@ -90,6 +87,11 @@ func (page MetricPage) LastMarker() (string, error) {
     }
 	log.Printf("%+v", s.Metadata)
     return s.Metadata.Marker, nil
+}
+
+func (page MetricPage) IsEmpty() (bool, error) {
+    metrics, err := ExtractMetrics(page)
+    return len(metrics) == 0, err
 }
 
 // ExtractMetrics will convert a generic pagination struct into a more

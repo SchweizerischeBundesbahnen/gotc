@@ -6,8 +6,6 @@ import (
 	"github.com/SchweizerischeBundesbahnen/gotc/ces/v1/metrics"
 	th "github.com/gophercloud/gophercloud/testhelper"
 	fake "github.com/gophercloud/gophercloud/testhelper/client"
-//    "log"
-//    "github.com/gophercloud/gophercloud/pagination"
 )
 
 func TestListMetrics(t *testing.T) {
@@ -15,13 +13,13 @@ func TestListMetrics(t *testing.T) {
 	defer th.TeardownHTTP()
 	HandleListMetrics(t)
 
-    //pages := metrics.List(fake.ServiceClient(), nil)
-    //err := pages.EachPage(func(page pagination.Page) (bool, error) {
-    //    actual, err := metrics.ExtractMetrics(page)
+	//pages := metrics.List(fake.ServiceClient(), nil)
+	//err := pages.EachPage(func(page pagination.Page) (bool, error) {
+	//    actual, err := metrics.ExtractMetrics(page)
 	//    th.AssertNoErr(t, err)
-    //    log.Printf("%+v", actual)
-    //    return false, nil
-    //})
+	//    log.Printf("%+v", actual)
+	//    return false, nil
+	//})
 	//th.AssertNoErr(t, err)
 
 	allPages, err := metrics.List(fake.ServiceClient(), nil).AllPages()
