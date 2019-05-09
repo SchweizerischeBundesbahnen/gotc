@@ -5,8 +5,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/gophercloud/gophercloud/testhelper/fixture"
 	"github.com/SchweizerischeBundesbahnen/gotc/db/v1/instances"
+	"github.com/gophercloud/gophercloud/testhelper/fixture"
 )
 
 var (
