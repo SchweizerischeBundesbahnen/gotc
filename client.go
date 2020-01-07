@@ -28,13 +28,6 @@ func NewCloudeyeV1(client *gophercloud.ProviderClient, eo gophercloud.EndpointOp
 	return sc, nil
 }
 
-// NewRDSV3 creates a ServiceClient that may be used with the v3 rds
-// package.
-func NewRDSV3(client *gophercloud.ProviderClient, eo gophercloud.EndpointOpts) (*gophercloud.ServiceClient, error) {
-	sc, err := initClientOpts(client, eo, "rdsv3")
-	return sc, err
-}
-
 func initClientOpts(client *gophercloud.ProviderClient, eo gophercloud.EndpointOpts, clientType string) (*gophercloud.ServiceClient, error) {
 	sc := new(gophercloud.ServiceClient)
 	eo.ApplyDefaults(clientType)
