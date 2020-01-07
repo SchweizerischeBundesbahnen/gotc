@@ -4,12 +4,13 @@ import (
     "fmt"
     "reflect"
     "github.com/gophercloud/gophercloud"
+    "github.com/gophercloud/gophercloud/pagination"
     "strconv"
 )
 
 // OffsetPage is a page in a collection that's paginated by "limit" and "offset" query parameters.
 type Offset struct {
-    PageResult
+    pagination.PageResult
 
 }
 
