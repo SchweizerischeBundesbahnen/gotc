@@ -55,21 +55,21 @@ type MetricPage struct {
 
 // NextPageURL will retrieve the next page URL.
 func (page MetricPage) NextPageURL() (string, error) {
-    currentURL := page.URL
+	currentURL := page.URL
 
-    mark, err := page.Owner.LastMarker()
-    if err != nil {
-        return "", err
-    }
-    if mark == invalidMarker {
-        return "", nil
-    }
+	mark, err := page.Owner.LastMarker()
+	if err != nil {
+		return "", err
+	}
+	if mark == invalidMarker {
+		return "", nil
+	}
 
-    q := currentURL.Query()
-    q.Set("start", mark)
-    currentURL.RawQuery = q.Encode()
+	q := currentURL.Query()
+	q.Set("start", mark)
+	currentURL.RawQuery = q.Encode()
 
-    return currentURL.String(), nil
+	return currentURL.String(), nil
 }
 
 func (page MetricPage) LastMarker() (string, error) {
@@ -81,15 +81,15 @@ func (page MetricPage) LastMarker() (string, error) {
 		return invalidMarker, err
 	}
 
-    if s.Metadata.Count == s.Metadata.Total {
-        return invalidMarker, nil
-    }
-    return s.Metadata.Marker, nil
+	if s.Metadata.Count == s.Metadata.Total {
+		return invalidMarker, nil
+	}
+	return s.Metadata.Marker, nil
 }
 
 func (page MetricPage) IsEmpty() (bool, error) {
-    metrics, err := ExtractMetrics(page)
-    return len(metrics) == 0, err
+	metrics, err := ExtractMetrics(page)
+	return len(metrics) == 0, err
 }
 
 // ExtractMetrics will convert a generic pagination struct into a more
