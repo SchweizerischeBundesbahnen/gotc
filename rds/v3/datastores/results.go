@@ -3,6 +3,7 @@ package datastores
 import (
 	"github.com/gophercloud/gophercloud"
 	"github.com/gophercloud/gophercloud/pagination"
+	hpagination "github.com/SchweizerischeBundesbahnen/gotc/pagination"
 )
 
 type DataStoresResult struct {
@@ -17,7 +18,7 @@ type dataStores struct {
 }
 
 type DataStoresPage struct {
-	pagination.Offset
+	hpagination.Offset
 }
 
 func (r DataStoresPage) IsEmpty() (bool, error) {
