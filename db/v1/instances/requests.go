@@ -1,6 +1,9 @@
 package instances
 
 import (
+	"errors"
+	"fmt"
+
 	"github.com/gophercloud/gophercloud"
 	db "github.com/gophercloud/gophercloud/openstack/db/v1/databases"
 	"github.com/gophercloud/gophercloud/openstack/db/v1/users"
@@ -70,15 +73,11 @@ type CreateOpts struct {
 // ToInstanceCreateMap will render a JSON map.
 func (opts CreateOpts) ToInstanceCreateMap() (map[string]interface{}, error) {
 	if opts.Size > 300 || opts.Size < 1 {
-		err := gophercloud.ErrInvalidInput{}
-		err.Argument = "instances.CreateOpts.Size"
-		err.Value = opts.Size
-		err.Info = "Size (GB) must be between 1-300"
-		return nil, err
+		return nil, fmt.Errorf("instances.CreateOpts.Size=%v! Size (GB) must be between 1-300", opts.Size)
 	}
 
 	if opts.FlavorRef == "" {
-		return nil, gophercloud.ErrMissingInput{Argument: "instances.CreateOpts.FlavorRef"}
+		return nil, errors.New("Missing input: instances.CreateOpts.FlavorRef")
 	}
 
 	instance := map[string]interface{}{
